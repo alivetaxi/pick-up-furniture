@@ -1,0 +1,28 @@
+steps:
+  # Step 1: Deploy `upload-item` function
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - functions
+      - deploy
+      - upload-item
+      - --runtime=python312
+      - --trigger-http
+      - --allow-unauthenticated
+      - --entry-point=upload_item
+      - --region=asia-east1
+      - --env-vars-file=.env.yaml
+
+  # Step 2: Deploy `get-item` function
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - functions
+      - deploy
+      - get-items
+      - --runtime=python312
+      - --trigger-http
+      - --allow-unauthenticated
+      - --entry-point=get_items
+      - --region=asia-east1
+      - --env-vars-file=.env.yaml
+
+timeout: 1200s
