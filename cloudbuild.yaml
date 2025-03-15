@@ -10,7 +10,6 @@ steps:
       - --allow-unauthenticated
       - --entry-point=upload_item
       - --region=asia-east1
-      - --env-vars-file=.env.yaml
 
   # Step 2: Deploy `get-item` function
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -23,6 +22,5 @@ steps:
       - --allow-unauthenticated
       - --entry-point=get_items
       - --region=asia-east1
-      - --env-vars-file=.env.yaml
 
 timeout: 1200s
