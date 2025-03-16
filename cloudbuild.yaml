@@ -1,5 +1,5 @@
 steps:
-  # Step 1: Deploy `upload-item` function
+  # Deploy `upload-item` function
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - functions
@@ -10,8 +10,9 @@ steps:
       - --allow-unauthenticated
       - --entry-point=upload_item
       - --region=asia-east1
+      - --source=./backend
 
-  # Step 2: Deploy `get-item` function
+  # Deploy `get-items` function
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - functions
@@ -22,5 +23,6 @@ steps:
       - --allow-unauthenticated
       - --entry-point=get_items
       - --region=asia-east1
+      - --source=./backend
 
-timeout: 1200s
+timeout: 1200s  # 20 minutes timeout
