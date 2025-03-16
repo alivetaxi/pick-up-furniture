@@ -13,7 +13,7 @@ except ValueError:
 
 db = firestore.client()
 
-DATABASE_NAME = "furniture-item"
+COLLECTION_NAME = "furniture-item"
 
 @functions_framework.http
 def get_items(request):
@@ -23,7 +23,7 @@ def get_items(request):
 
     try:
         items = []
-        docs = db.collection(DATABASE_NAME).stream()
+        docs = db.collection(COLLECTION_NAME).stream()
 
         for doc in docs:
             item = doc.to_dict()

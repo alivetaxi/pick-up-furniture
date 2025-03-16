@@ -1,7 +1,6 @@
 """ upload item """
 
 import uuid
-import os
 
 import functions_framework
 import firebase_admin
@@ -18,7 +17,7 @@ except ValueError:
 db = firestore.client()
 
 BUCKET_NAME = "furniture-images"
-DATABASE_NAME = "furniture-item"
+COLLECTION_NAME = "furniture-item"
 
 @functions_framework.http
 def upload_item(request):
@@ -53,7 +52,7 @@ def upload_item(request):
             "description": description,
             "image_urls": image_urls
         }
-        doc_ref = db.collection(DATABASE_NAME).add(item_data)
+        doc_ref = db.collection(COLLECTION_NAME).add(item_data)
 
         return jsonify({"message": "Upload successful", "item_id": doc_ref[1].id}), 200
 
