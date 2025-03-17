@@ -16,6 +16,7 @@ except ValueError:
 
 db = firestore.client()
 
+STORAGE_URL = "https://storage.googleapis.com"
 BUCKET_NAME = "furniture-images"
 COLLECTION_NAME = "furniture-item"
 
@@ -45,8 +46,7 @@ def upload_item(request):
             unique_filename = f"{uuid.uuid4()}.{file_extension}"
             blob = bucket.blob(f"uploads/{unique_filename}")
             blob.upload_from_file(file, content_type=file.content_type)
-            blob.make_public()  # Make the image publicly accessible
-            image_urls.append(blob.public_url)
+            image_urls.append(f"{STORAGE_URL}/{BUCKET_NAME}/uploads/{unique_filename}")
 
         # Store item data in Firestore
         item_data = {
