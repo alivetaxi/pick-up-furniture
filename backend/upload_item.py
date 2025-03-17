@@ -6,7 +6,7 @@ import functions_framework
 import firebase_admin
 from firebase_admin import firestore, storage
 from flask import jsonify
-
+from cors import set_cors_headers
 
 # Initialize Firebase Admin SDK safely
 try:
@@ -22,8 +22,10 @@ COLLECTION_NAME = "furniture-item"
 @functions_framework.http
 def upload_item(request):
     """Handles image uploads and stores metadata in Firestore."""
+    if request.method == "OPTIONS":
+        return set_cors_headers(''), 204
     if request.method != 'POST':
-        return jsonify({"error": "Invalid request method"}), 405
+        return set_cors_headers(jsonify({"error": "Invalid request method"})), 405
 
     try:
         # Parse form data
@@ -32,7 +34,7 @@ def upload_item(request):
         files = request.files.getlist("images")
 
         if not name or not description or not files:
-            return jsonify({"error": "Missing fields"}), 400
+            return set_cors_headers(jsonify({"error": "Missing fields"})), 400
 
         image_urls = []
         bucket = storage.bucket(BUCKET_NAME)
@@ -54,7 +56,7 @@ def upload_item(request):
         }
         doc_ref = db.collection(COLLECTION_NAME).add(item_data)
 
-        return jsonify({"message": "Upload successful", "item_id": doc_ref[1].id}), 200
+        return set_cors_headers(jsonify({"message": "Upload successful", "item_id": doc_ref[1].id})), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return set_cors_headers(jsonify({"error": str(e)})), 500

@@ -4,6 +4,7 @@ import functions_framework
 import firebase_admin
 from firebase_admin import firestore
 from flask import jsonify
+from cors import set_cors_headers
 
 # Initialize Firebase Admin SDK safely
 try:
@@ -18,8 +19,10 @@ COLLECTION_NAME = "furniture-item"
 @functions_framework.http
 def get_items(request):
     """Fetches all items from Firestore."""
+    if request.method == "OPTIONS":
+        return set_cors_headers(''), 204
     if request.method != 'GET':
-        return jsonify({"error": "Invalid request method"}), 405
+        return set_cors_headers(jsonify({"error": "Invalid request method"})), 405
 
     try:
         items = []
@@ -30,7 +33,7 @@ def get_items(request):
             item["id"] = doc.id  # Include Firestore document ID
             items.append(item)
 
-        return jsonify(items), 200
+        return set_cors_headers(jsonify(items)), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return set_cors_headers(jsonify({"error": str(e)})), 500
