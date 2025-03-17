@@ -24,5 +24,15 @@ steps:
       - --entry-point=get_items
       - --region=asia-east1
       - --source=./backend
+  
+  # Deploy frontend
+  - name: "gcr.io/cloud-builders/npm"
+    dir: "frontend"
+    args: ["install"]
+  - name: "gcr.io/cloud-builders/npm"
+    dir: "frontend"
+    args: ["run", "build"]
+  - name: "gcr.io/cloud-builders/gsutil"
+    args: ["-m", "rsync", "-R", "frontend/dist/frontend/browser", "gs://pick-up-fuiniture-app"]
 
 timeout: 1200s  # 20 minutes timeout
