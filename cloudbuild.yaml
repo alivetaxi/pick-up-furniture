@@ -26,10 +26,10 @@ steps:
       - --source=./backend
   
   # Deploy frontend
-  - name: "gcr.io/cloud-builders/npm"
+  - name: "gcr.io/cloud-builders/npm:lts"
     dir: "frontend"
     args: ["install"]
-  - name: "gcr.io/cloud-builders/npm"
+  - name: "gcr.io/cloud-builders/npm:lts"
     dir: "frontend"
     args: ["run", "build"]
   - name: "gcr.io/cloud-builders/gsutil"
