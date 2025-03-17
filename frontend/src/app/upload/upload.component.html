@@ -1,1 +1,19 @@
-<p>upload works!</p>
+<div class="upload-container">
+    <h2>Upload Item</h2>
+
+    <form (ngSubmit)="onSubmit()" #uploadForm="ngForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="name" required />
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" [(ngModel)]="description" required></textarea>
+
+        <label for="images">Upload Images:</label>
+        <input type="file" id="images" multiple (change)="onFileSelected($event)" accept="image/*" />
+
+        <button type="submit" [disabled]="isUploading">Upload</button>
+    </form>
+
+    <p *ngIf="isUploading">Uploading...</p>
+    <p *ngIf="uploadSuccess">Upload successful!</p>
+</div>
