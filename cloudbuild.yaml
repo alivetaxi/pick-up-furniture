@@ -41,5 +41,6 @@ steps:
       - '--platform=managed'
       - '--region=asia-east1'
       - '--allow-unauthenticated'
+      - '--port=80'
 
 timeout: 1200s  # 20 minutes timeout
